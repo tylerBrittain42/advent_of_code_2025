@@ -1,6 +1,0 @@
-# dune init proj aoc
-# OCAMLPARAM: unset
-# Shared cache: enabled-except-user-rules
-# Shared cache location: /home/tyler/.cache/dune/db
-# Workspace root: /home/tyler/Documents/advent_of_code_2025/aoc
-# Auto-detected concurrency: 28
