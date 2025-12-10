@@ -240,6 +240,98 @@ Operating system level input/output is done via functions, typically `read_line`
 
 Passing or returning data is not a requirement of either of these functions. If nothing is used, a placehold called `unit` that is referred to as `()` will appear in the sigernature instead.The `unit` type often indicates side-effects, but this is not always true.
 
+# Data and Typing
+
+## Floats and Ints
+
+Floats and ints in ocaml use different addition operators.
+
+- floats expect `+.`
+- int expects `+`
+  Unlike most languages, ocaml does not automatically convert between floats and ints. Ocaml will throw an error regardless of which addition operator you use. **Instead** you need to explicitly convert an int to a float using `float_of_int` or a float to an int using `int_of_float`.
+
+example:
+
+```ocaml
+utop # 1 +. 0.5;;
+Error: The constant 1 has type int but an expression was expected of type float
+Hint: Did you mean 1.?
+
+utop # float_of_int 1 +. 0.5;;
+- : float = 1.5
+
+utop # int_of_float 9.5 + 1;;
+- : int = 10
+```
+
+## Lists
+
+A list is the most common data type in OCaml. A list **is** any ordered collection of values of the same type. A list is indicated with brackets.
+
+## Tuples and Pairs
+
+A tuple is a fixed length collection of elements of any type. A pair is a tuple with specifically two elements. The function `snd` is used to grab the second value in a pair.
+
+## Variant types
+
+Variant types are OCaml's answer to enumerated and union types. **Fill this part out more as i get a better understanding**
+
+These must be defined before use.
+
+## Records
+
+A record iss a series of packed elements of different types where easch element is given a name(think json)
+
+These must be defined before use.
+
+## Pattern matching
+
+If...then...else statements can be written using pattern matching. The unscore(\_) is a catch all character. A warning is thrown when not all cases are caught by pattern matching.
+
+```ocaml
+let rec length u =
+    match u with
+    | [] -> 0
+    | _ :: v -> 1 + length v;; let rec length u =
+    match u with
+    | [] -> 0
+    | _ :: v -> 1 + length v;;
+```
+
+# Errors
+
+Errors throw exceptions. Exceptions are raised with the `raise` keyword and caught with a `try...with...` phrase.
+
+```ocaml
+# let id_42 n = if n <> 42 then raise (Failure "Sorry") else n;;
+val id_42 : int -> int = <fun>
+
+# try id_42 0 with Failure _ -> 0;;
+- : int = 0
+```
+
+## The result type
+This can be matched against to determine if there is an error.
+```ocaml
+# let id_42_res n = if n <> 42 then Error "Sorry" else Ok n;;
+val id_42_res : int -> (int, string) result = <fun>
+
+# id_42_res 42;;
+- : (int, string) result = Ok 42
+
+# id_42_res 0;;
+- : (int, string) result = Error "Sorry"
+
+# match id_42_res 0 with
+  | Ok n -> n
+  | Error _ -> 0;;
+- : int = 0
+```
+
+# side effects
+skipping for now
+
+
 # Styling guidelines
 
 - Do not use dashes. Use underscores instead.
